@@ -1,0 +1,61 @@
+<sdf version='1.6'>
+	<world name='default'>
+	<gravity>0 0 -9.8</gravity>
+		<model name='field.obj'>
+			<static>1</static>
+			<pose frame=''>0 0 -0.1 0 0 0</pose>
+			<link name='link_d0'>
+                <contact>
+                    <rolling_friction>0.01</rolling_friction>
+                    <friction1> 100 </friction1>
+                    <friction2> 50 </friction2>
+                </contact>
+			<inertial>
+			<mass>0</mass>
+			<inertia>
+			<ixx>0.16667</ixx>
+			<ixy>0</ixy>
+			<ixz>0</ixz>
+			<iyy>0.16667</iyy>
+			<iyz>0</iyz>
+			<izz>0.16667</izz>
+			</inertia>
+			</inertial>
+			<collision name='collision_1'>
+			    <geometry>
+                    /* <box> */
+                    /*     <size>44 36 0.20</size> */
+                    /* </box> */
+				    <mesh>
+					    <scale>1.0 1.0 1.0</scale>
+					    <uri>field.obj</uri>
+				    </mesh>
+                </geometry>
+                <surface>
+                    <friction>
+                        <bullet>
+                            <rolling_friction> 0.01 </rolling_friction>
+                            <friction1> 100 </friction1>
+                            <friction2> 50 </friction2>
+                        </bullet>
+                    </friction>
+                </surface>
+			</collision>
+			<visual name='visual'>
+				<geometry>
+				<mesh>
+					<scale>1.0 1.0 1.0</scale>
+					<uri>field.obj</uri>
+				</mesh>
+				</geometry>
+			<material>
+				<ambient>1 1 1 1</ambient>
+				<diffuse>1.00000 1.00000 1.000000 1</diffuse>
+				<specular>0.1 .1 .1 1</specular>
+				<emissive>0 0 0 0</emissive>
+			 </material>
+			 </visual>
+			 </link>
+			</model>
+	</world>
+</sdf>

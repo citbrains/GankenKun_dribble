@@ -1,0 +1,43 @@
+<sdf version='1.6'>
+	<world name='default'>
+	<gravity>0 0 -9.8</gravity>
+		<model name='ball.obj'>
+			<static>0</static>
+			<pose frame=''>0.2 0 0.1 0 0 0</pose>
+			<link name='link_d1'>
+			<inertial>
+			<mass>0.3</mass>
+			<inertia>
+			<ixx>0.16667</ixx>
+			<ixy>0</ixy>
+			<ixz>0</ixz>
+			<iyy>0.16667</iyy>
+			<iyz>0</iyz>
+			<izz>0.16667</izz>
+			</inertia>
+			</inertial>
+			<collision name='collision_2'>
+			<geometry>
+            <sphere>
+                <radius> 0.1 </radius>
+            </sphere>
+          </geometry>
+			  </collision>
+			<visual name='visual'>
+				<geometry>
+				<mesh>
+					<scale>0.1 0.1 0.1</scale>
+					<uri>ball.obj</uri>
+				</mesh>
+				</geometry>
+			<material>
+				<ambient>1 1 1 1</ambient>
+				<diffuse>1.00000 1.00000 1.000000 1</diffuse>
+				<specular>0.1 .1 .1 1</specular>
+				<emissive>0 0 0 0</emissive>
+			 </material>
+			 </visual>
+			 </link>
+			</model>
+	</world>
+</sdf>
