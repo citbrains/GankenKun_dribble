@@ -20,5 +20,8 @@ while True:
         action = [0.0, 0.0, 1.0]
     if 50 <= step <= 60:
         action = [0.0, 0.0, -1.0]
+    if 60 <= step <= 70:
+        action = [0.0, 0.0, 0.0]
     next_state, reward, done, info = env.step(action)
+    step += 1
 
