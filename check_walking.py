@@ -2,6 +2,7 @@
 
 import gym
 import envs
+from time import sleep
 
 env = gym.make('GankenKun-v0')
 state = env.reset()
@@ -24,4 +25,5 @@ while True:
         action = [0.0, 0.0, 0.0]
     next_state, reward, done, info = env.step(action)
     step += 1
+    sleep(1)
 
