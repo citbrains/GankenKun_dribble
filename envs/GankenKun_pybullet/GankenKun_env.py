@@ -29,8 +29,8 @@ class GankenKunEnv(gym.Env):
         self.ball_y_threshold = 3.0
 
         TIME_STEP = 0.001
- #       physicsClient = p.connect(p.GUI)
-        physicsClient = p.connect(p.DIRECT)
+        physicsClient = p.connect(p.GUI)
+#        physicsClient = p.connect(p.DIRECT)
         p.setGravity(0, 0, -9.8)
         p.setTimeStep(TIME_STEP)
         
