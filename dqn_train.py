@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import random
 
@@ -15,13 +17,13 @@ def train():
     # setup ===========================
     max_episode = 1000  # 学習において繰り返す最大エピソード数
     max_step = 250  # 1エピソードの最大ステップ数
-    n_warmup_steps = 10000  # warmupを行うステップ数
+    n_warmup_steps = 250 # warmupを行うステップ数
     interval = 1  # モデルや結果を吐き出すステップ間隔
-    actions_list = [[0.1, 0.0, 0.0], [-0.1, 0.0, 0.0], [0.0, 0.06, 0.0], [0.0, -0.06, 0.0], [0.0, 0.0, 0.4], [0.0, 0.0, -0.4]]  # 行動(action)の取りうる値のリスト
-    gamma = 0.99  # 割引率
-    epsilon = 0.1  # ε-greedyのパラメータ
+    actions_list = [[0.1, 0.0, 0.0], [-0.1, 0.0, 0.0], [0.0, 0.06, 0.0], [0.0, -0.06, 0.0], [0.0, 0.1, 1.0], [0.0, -0.1, -1.0]]  # 行動(action)の取りうる値のリスト
+    gamma = 0.9  # 割引率
+    epsilon = 0.05  # ε-greedyのパラメータ
     memory_size = 10000
-    batch_size = 32
+    batch_size = 4
     result_dir = os.path.join('./result/dqn', now_str())
     x = []
     x_reward = []
@@ -71,6 +73,7 @@ def train():
             step = 0
         if total_step > n_warmup_steps:
             break
+        print(total_step)
     memory = memory[-memory_size:]
     print('warming up {:,} steps... done.'.format(n_warmup_steps))
 
@@ -100,14 +103,16 @@ def train():
 
             memory.append((state, action, c_reward, next_state, done))
             episode_reward_list.append(c_reward)
+
             exps = random.sample(memory, batch_size)
             loss, td_error = q_network.update_on_batch(exps)
             loss_list.append(loss)
             td_list.append(td_error)
 
-            q_network.sync_target_network(soft=0.01)
+            q_network.sync_target_network(soft=0.001)
             state = next_state
             memory = memory[-memory_size:]
+#            print(len(memory))
 
             # end of episode
             if step >= max_step or done:
@@ -116,7 +121,7 @@ def train():
                 reward_sum = np.sum(episode_reward_list)
                 loss_avg = np.mean(loss_list)
                 td_error_avg = np.mean(td_list)
-                print("{}episode  reward_avg:{} loss:{} td_error:{}".format(num_episode, reward_sum, loss_avg, td_error_avg))
+                print("{}episode  reward_avg:{} loss:{} td_error:{}".format(num_episode, reward_avg, loss_avg, td_error_avg))
                 if num_episode % interval == 0:
                     model_path = os.path.join(result_dir, 'episode_{}.h5'.format(num_episode))
                     q_network.main_network.save(model_path)

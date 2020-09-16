@@ -19,7 +19,7 @@ class foot_step_planner():
     step_x  = abs(goal_x  - current_x )/self.max_stride_x
     step_y  = abs(goal_y  - current_y )/self.max_stride_y
     step_th = abs(goal_th - current_th)/self.max_stride_th
-    max_step = max(step_x, step_y, step_th)
+    max_step = max(step_x, step_y, step_th, 1)
     stride_x  = (goal_x  - current_x )/max_step
     stride_y  = (goal_y  - current_y )/max_step
     stride_th = (goal_th - current_th)/max_step

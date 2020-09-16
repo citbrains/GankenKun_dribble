@@ -15,7 +15,7 @@ import csv
 import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
-
+import math
 
 class GankenKunEnv(gym.Env):
     def __init__(self):
@@ -75,11 +75,14 @@ class GankenKunEnv(gym.Env):
         while p.isConnected():
             self.joint_angles,lf,rf,xp,n = self.walk.getNextPos()
             if n == 0:
-                x_goal = self.foot_step[0][1] + action[0]
-                y_goal = self.foot_step[0][2] - self.foot_step[0][5] + action[1]
-                th_goal = self.foot_step[0][3] + action[2]
-                self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
-                break
+                if self.foot_step[0][4] == "left":
+                    x_goal = self.foot_step[0][1] + action[0]
+                    y_goal = self.foot_step[0][2] - self.foot_step[0][5] + action[1]
+                    th_goal = self.foot_step[0][3] + action[2]
+                    self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
+                    break
+                else:
+                    self.foot_step = self.walk.setGoalPos()
             for id in range(p.getNumJoints(self.RobotId)):
                 qIndex = p.getJointInfo(self.RobotId, id)[3]
                 if qIndex > -1:
@@ -91,7 +94,12 @@ class GankenKunEnv(gym.Env):
         x, y, _ = p.getBasePositionAndOrientation(self.RobotId)[0]
         roll, pitch, yaw = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(self.RobotId)[1])
         ball_x, ball_y, _ = p.getBasePositionAndOrientation(self.BallId[0])[0]
-        self.state = [x, y, yaw, ball_x, ball_y]
+        ball_lx, ball_ly = ball_x - x, ball_y - y
+        goal_lx, goal_ly = self.goal_pos[0] - x, self.goal_pos[1] - y
+        ball_rx, ball_ry = ball_lx * math.cos(yaw) + ball_ly * math.sin(yaw), - ball_lx * math.sin(yaw) + ball_ly * math.cos(yaw)
+        goal_rx, goal_ry = goal_lx * math.cos(yaw) + goal_ly * math.sin(yaw), - goal_lx * math.sin(yaw) + goal_ly * math.cos(yaw)
+
+        self.state = [goal_rx, goal_ry, yaw, ball_rx, ball_ry]
 
         done = bool(
                 abs(x) > self.x_threshold
@@ -112,7 +120,7 @@ class GankenKunEnv(gym.Env):
             self.ball_delta_length = - ball_goal_distance + ball_goal_prev_distance
             if ball_goal_distance == ball_goal_prev_distance:
                 self.ball_not_touch_period += 1
-                if self.ball_not_touch_period > 60:
+                if self.ball_not_touch_period > 30:
                     self.ball_not_touch_period = 0
                     done = True
             else:
