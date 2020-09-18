@@ -17,7 +17,7 @@ def predict():
     args = parser.parse_args()
     weight_path = args.weight_path
     max_step = 300  # 1エピソードの最大ステップ数
-    actions_list = [[0.1, 0.0, 0.0], [-0.1, 0.0, 0.0], [0.0, 0.06, 0.0], [0.0, -0.06, 0.0], [0.0, 0.0, 0.4], [0.0, 0.0, -0.4]]  # 行動(action)の取りうる値のリスト
+    actions_list = [0, 1, 2, 3, 4, 5]  # 行動(action)の取りうる値のリスト
     num_episode = 1000
     base_dir = os.path.dirname(weight_path)
     predict_movie_dir = os.path.join(base_dir, 'movie')
@@ -27,7 +27,7 @@ def predict():
     env = gym.make("GankenKun-v0")
 #    env = wrappers.Monitor(env, predict_movie_dir, force=True, video_callable=(lambda ep: ep % 1 == 0))
 #    dim_state = env.env.observation_space.shape[0]
-    dim_state = 5
+    dim_state = 6
 
     q_network = Qnetwork(dim_state, actions_list)
     q_network.main_network.load_weights(weight_path)

@@ -17,9 +17,9 @@ def train():
     max_step = 250  # 1エピソードの最大ステップ数
     n_warmup_steps = 10000  # warmupを行うステップ数
     interval = 1  # モデルや結果を吐き出すステップ間隔
-    actions_list = [[0.1, 0.0, 0.0], [-0.1, 0.0, 0.0], [0.0, 0.06, 0.0], [0.0, -0.06, 0.0], [0.0, 0.0, 0.4], [0.0, 0.0, -0.4]]  # 行動(action)の取りうる値のリスト
+    actions_list = [0, 1, 2, 3, 4, 5]  # 行動(action)の取りうる値のリスト
     gamma = 0.99  # 割引率
-    epsilon = 0.1  # ε-greedyのパラメータ
+    epsilon = 0.05  # ε-greedyのパラメータ
     memory_size = 10000
     batch_size = 32
     result_dir = os.path.join('./result/dqn', now_str())
@@ -34,7 +34,7 @@ def train():
     os.makedirs(result_dir, exist_ok=True)
     print(result_dir)
     env = gym.make('GankenKun-v0')
-    dim_state = 5
+    dim_state = 6
 #    print('state:', dim_state)
     q_network = Qnetwork(dim_state, actions_list, gamma=gamma)
     policy = EpsilonGreedyPolicy(q_network, epsilon=epsilon)

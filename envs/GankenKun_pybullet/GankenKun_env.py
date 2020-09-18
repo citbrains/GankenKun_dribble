@@ -28,11 +28,13 @@ class GankenKunEnv(gym.Env):
         self.ball_x_threshold = 4.5
         self.ball_y_threshold = 3.0
 
-        TIME_STEP = 0.001
- #       physicsClient = p.connect(p.GUI)
-        physicsClient = p.connect(p.DIRECT)
+        TIME_STEP = 0.01
+        physicsClient = p.connect(p.GUI)
+#        physicsClient = p.connect(p.DIRECT)
         p.setGravity(0, 0, -9.8)
         p.setTimeStep(TIME_STEP)
+        p.setPhysicsEngineParameter(numSubSteps=10)
+        p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
         
 #        planeId = p.loadURDF("envs/GankenKun_pybullet/URDF/plane.urdf", [0, 0, 0])
         self.FieldId = p.loadSDF("envs/GankenKun_pybullet/SDF/field/soccerfield.sdf")
@@ -61,30 +63,27 @@ class GankenKunEnv(gym.Env):
         for id in range(p.getNumJoints(self.RobotId)):
             self.index_dof[p.getJointInfo(self.RobotId, id)[12].decode('UTF-8')] = p.getJointInfo(self.RobotId, id)[3] - 7
         
-        #goal position (x, y) theta
-        x_goal, y_goal, th_goal = 0.1, 0.0, 0.0
-        self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
-    #    print(p.getBasePositionAndOrientation(BallId[0]))
+        self.actions_list = [[ self.walk.max_stride_x, 0.0, 0.0],
+                             [-self.walk.max_stride_x, 0.0, 0.0],
+                             [0.0,  self.walk.max_stride_y, 0.0],
+                             [0.0, -self.walk.max_stride_y, 0.0],
+                             [0.0, 0.0,  self.walk.max_stride_th],
+                             [0.0, 0.0, -self.walk.max_stride_th],]
 
-    def step(self, action):
-        j = 0
-        #print()
+    def step(self, action_num):
+        action = self.actions_list[action_num]
         while p.isConnected():
-            j += 1
-            if j >= 10:
-                self.joint_angles,lf,rf,xp,n = self.walk.getNextPos()
-                j = 0
-                if n == 0:
-                    if (len(self.foot_step) <= 6):
-                        x_goal = self.foot_step[0][1] + action[0]
-                        y_goal = self.foot_step[0][2] + action[1]
-                        th_goal = self.foot_step[0][3] + action[2]
-                        
-                        self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
-                    else:
-                        self.foot_step = self.walk.setGoalPos()
-                #if you want new goal, please send position
+            self.joint_angles,lf,rf,xp,n = self.walk.getNextPos()
+            if n == 0:
+                if self.foot_step[0][4] == 'left':
+                    x_goal = self.foot_step[0][1] + action[0]
+                    y_goal = self.foot_step[0][2] -self.foot_step[0][5] + action[1]
+                    th_goal = self.foot_step[0][3] + action[2]    
+                    self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
                     break
+                else:
+                    self.foot_step = self.walk.setGoalPos()
+            #if you want new goal, please send position
             for id in range(p.getNumJoints(self.RobotId)):
                 qIndex = p.getJointInfo(self.RobotId, id)[3]
                 if qIndex > -1:
@@ -95,7 +94,7 @@ class GankenKunEnv(gym.Env):
         x, y, _ = p.getBasePositionAndOrientation(self.RobotId)[0]
         roll, pitch, yaw = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(self.RobotId)[1])
         ball_x, ball_y, _ = p.getBasePositionAndOrientation(self.BallId[0])[0]
-        self.state = [x, y, yaw, ball_x, ball_y]
+        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x, ball_y]
 
         done = bool(
                 abs(x) > self.x_threshold
@@ -121,15 +120,12 @@ class GankenKunEnv(gym.Env):
     def reset(self):
         p.resetBasePositionAndOrientation(self.RobotId, [0, 0, 0], [0, 0, 0, 1.0])
         p.resetBasePositionAndOrientation(self.BallId[0], [0.2, 0, 0.1], [0, 0, 0, 1.0])
-        x_goal, y_goal, th_goal = 0.1, 0.0, 0.0
-        del self.walk, self.pc
-        self.pc = preview_control(0.01, 1.0, 0.27)
-        self.walk = walking(self.RobotId, self.left_foot, self.right_foot, self.joint_angles, self.pc)
+        x_goal, y_goal, th_goal = 0.0, 0.0, 0.0
         self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
         x, y, _ = p.getBasePositionAndOrientation(self.RobotId)[0]
         roll, pitch, yaw = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(self.RobotId)[1])
         ball_x, ball_y, _ = p.getBasePositionAndOrientation(self.BallId[0])[0]
-        self.state = [x, y, yaw, ball_x, ball_y]
+        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x, ball_y]
         return np.array(self.state)
 
 

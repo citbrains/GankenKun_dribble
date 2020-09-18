@@ -16,7 +16,10 @@ class walking():
     self.left_foot0, self.right_foot0 = left_foot0, right_foot0
     self.joint_angles = joint_angles
     self.pc = pc
-    self.fsp = foot_step_planner(0.05, 0.03, 0.2, 0.34, 0.06)
+    self.max_stride_x = 0.05
+    self.max_stride_y = 0.03
+    self.max_stride_th = 0.2
+    self.fsp = foot_step_planner(self.max_stride_x, self.max_stride_y, self.max_stride_th, 0.34, 0.06)
     self.X = np.matrix([[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]])
     self.pattern = []
     self.left_up = self.right_up = 0.0
@@ -42,7 +45,7 @@ class walking():
           offset_y = 0.0
         current_x, current_y, current_th = self.foot_step[1][1], self.foot_step[1][2]+offset_y, self.foot_step[1][3]
       else:
-        current_x, current_y, current_th = 0, 0, 0
+        current_x, current_y, current_th = 0., 0., 0.
       self.foot_step = self.fsp.calculate(pos[0], pos[1], pos[2], current_x, current_y, current_th, self.next_leg, self.status)
       self.status = 'walking'
 #    print(str(self.foot_step)+'\n')

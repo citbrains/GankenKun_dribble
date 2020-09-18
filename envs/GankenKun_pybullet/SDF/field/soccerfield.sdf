@@ -6,7 +6,7 @@
 			<pose frame=''>0 0 -0.1 0 0 0</pose>
 			<link name='link_d0'>
                 <contact>
-                    <rolling_friction>0.01</rolling_friction>
+                    <rolling_friction>0.013</rolling_friction>
                     <friction1> 100 </friction1>
                     <friction2> 50 </friction2>
                 </contact>
@@ -34,7 +34,7 @@
                 <surface>
                     <friction>
                         <bullet>
-                            <rolling_friction> 0.01 </rolling_friction>
+                            <rolling_friction> 0.013 </rolling_friction>
                             <friction1> 100 </friction1>
                             <friction2> 50 </friction2>
                         </bullet>
