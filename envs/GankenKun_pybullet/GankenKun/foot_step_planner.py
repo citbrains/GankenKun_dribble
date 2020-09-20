@@ -19,7 +19,7 @@ class foot_step_planner():
     step_x  = abs(goal_x  - current_x )/self.max_stride_x
     step_y  = abs(goal_y  - current_y )/self.max_stride_y
     step_th = abs(goal_th - current_th)/self.max_stride_th
-    max_step = max(step_x, step_y, step_th)
+    max_step = max(step_x, step_y, step_th, 1)
     stride_x  = (goal_x  - current_x )/max_step
     stride_y  = (goal_y  - current_y )/max_step
     stride_th = (goal_th - current_th)/max_step
@@ -27,13 +27,13 @@ class foot_step_planner():
     # first step
     foot_step = []
     if status == 'start':
-      foot_step += [[0.0, current_x, current_y, current_th, 'both']]
+      foot_step += [[0.0, current_x, current_y, current_th, 'both', 0]]
       time += self.period * 2.0
     if next_support_leg == 'right':
-      foot_step += [[time, current_x, -self.width+current_y, current_th, next_support_leg]]
+      foot_step += [[time, current_x, -self.width+current_y, current_th, next_support_leg, -self.width]]
       next_support_leg = 'left'
     elif next_support_leg == 'left':
-      foot_step += [[time, current_x,  self.width+current_y, current_th, next_support_leg]]
+      foot_step += [[time, current_x,  self.width+current_y, current_th, next_support_leg,  self.width]]
       next_support_leg = 'right'
 
     # walking
@@ -50,10 +50,10 @@ class foot_step_planner():
       next_y  = current_y  + stride_y
       next_th = current_th + stride_th
       if next_support_leg == 'right':
-        foot_step += [[time, next_x, next_y-self.width, next_th, next_support_leg]]
+        foot_step += [[time, next_x, next_y-self.width, next_th, next_support_leg, -self.width]]
         next_support_leg = 'left'
       elif next_support_leg == 'left':
-        foot_step += [[time, next_x, next_y+self.width, next_th, next_support_leg]]
+        foot_step += [[time, next_x, next_y+self.width, next_th, next_support_leg,  self.width]]
         next_support_leg = 'right'
       current_x, current_y, current_th = next_x, next_y, next_th
 
@@ -62,16 +62,16 @@ class foot_step_planner():
     if not status == 'stop':
       time += self.period
       if next_support_leg == 'right':
-        foot_step += [[time, next_x, next_y-self.width, next_th, next_support_leg]]
+        foot_step += [[time, next_x, next_y-self.width, next_th, next_support_leg, -self.width]]
       elif next_support_leg == 'left':
-        foot_step += [[time, next_x, next_y+self.width, next_th, next_support_leg]]
+        foot_step += [[time, next_x, next_y+self.width, next_th, next_support_leg,  self.width]]
       time += self.period
       next_support_leg = 'both'
-      foot_step += [[time, next_x, next_y, next_th, next_support_leg]]
+      foot_step += [[time, next_x, next_y, next_th, next_support_leg, 0]]
       time += 2.0
-      foot_step += [[time, next_x, next_y, next_th, next_support_leg]]
+      foot_step += [[time, next_x, next_y, next_th, next_support_leg, 0]]
       time += 100.0
-      foot_step += [[time, next_x, next_y, next_th, next_support_leg]]
+      foot_step += [[time, next_x, next_y, next_th, next_support_leg, 0]]
 
     return foot_step
 

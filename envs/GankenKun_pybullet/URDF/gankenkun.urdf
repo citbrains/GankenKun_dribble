@@ -53,19 +53,6 @@
       <origin xyz="-0.029448 0 0.031411"/>
       <inertia ixx="0.007" ixy="0.0" ixz="0.0" iyy="0.007" iyz="0.0" izz="0.007"/>
     </inertial>
-    <visual>
-      <origin rpy="-1.57079632679 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/body.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="-1.57079632679 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/body.stl"/>
-      </geometry>
-    </collision>
   </link>
   <!-- head joints -->
   <joint name="head_yaw_joint" type="revolute">
@@ -82,19 +69,6 @@
       <origin xyz="0.017325 0 0.065059"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="-1.57079632679 1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/head.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="-1.57079632679 1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/head.stl"/>
-      </geometry>
-    </collision>
   </link>
   <!-- arm joints -->
   <joint name="left_shoulder_pitch_joint" type="revolute">
@@ -125,20 +99,6 @@
       <origin xyz="0 0 0.0075"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shoulder.stl"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-      <!-- fix shoulder collision.stl -->
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shoulder.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_upper_arm_link">
     <inertial>
@@ -146,19 +106,6 @@
       <origin xyz="0 0.0545 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/arm.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/arm.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_lower_arm_link">
     <inertial>
@@ -166,19 +113,6 @@
       <origin xyz="0 0.132001 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/hand.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/hand.stl"/>
-      </geometry>
-    </collision>
   </link>
   <!-- arm joints -->
   <joint name="right_shoulder_pitch_joint" type="revolute">
@@ -209,20 +143,6 @@
       <origin xyz="0 0 -0.0075"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 3.14159265359 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shoulder.stl"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-      <!-- fix shoulder collision.stl -->
-      <origin rpy="0 3.14159265359 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shoulder.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_upper_arm_link">
     <inertial>
@@ -230,19 +150,6 @@
       <origin xyz="0 0.0545 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/arm.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/arm.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_lower_arm_link">
     <inertial>
@@ -250,19 +157,6 @@
       <origin xyz="0 0.132001 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="3.14159265359 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/hand.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="3.14159265359 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/hand.stl"/>
-      </geometry>
-    </collision>
   </link>
   <!-- leg joints -->
   <joint name="left_waist_yaw_joint" type="revolute">
@@ -359,19 +253,6 @@
       <origin xyz="-0.00658 0 -0.010416"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="-1.57079632679 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_yaw.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="-1.57079632679 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_yaw.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_waist_roll_link">
     <inertial>
@@ -379,19 +260,6 @@
       <origin xyz="0.002331 0 -0.04763"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="-1.57079632679 -1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_roll_left.stl"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-      <origin rpy="-1.57079632679 -1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_roll_left.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_slider_crank_link">
     <inertial>
@@ -399,19 +267,6 @@
       <origin xyz="-0.010842 0 -0.001"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/slider_crank.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/slider_crank.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_waist_pitch_link">
     <inertial>
@@ -419,19 +274,6 @@
       <origin xyz="0.057714 -0.007362 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_waist_pitch_mimic_link">
     <inertial>
@@ -439,19 +281,6 @@
       <origin xyz="0.059775 0.001384 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch_mimic.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch_mimic.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_knee_pitch_link">
     <inertial>
@@ -479,19 +308,6 @@
       <origin xyz="0.048641 -0.006895 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_shin_pitch_mimic_link">
     <inertial>
@@ -499,19 +315,6 @@
       <origin xyz="0.039698 -0.001743 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="3.14159265359 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch_mimic.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="3.14159265359 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch_mimic.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="left_independent_pitch_link">
     <inertial>
@@ -674,19 +477,6 @@
       <origin xyz="-0.00658 0 -0.010416"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="-1.57079632679 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_yaw.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="-1.57079632679 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_yaw.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_waist_roll_link">
     <inertial>
@@ -694,19 +484,6 @@
       <origin xyz="0.002331 0 -0.04763"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="-1.57079632679 -1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_roll_right.stl"/>
-      </geometry>
-      <material name="black"/>
-    </visual>
-    <collision>
-      <origin rpy="-1.57079632679 -1.57079632679 0" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_roll_right.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_slider_crank_link">
     <inertial>
@@ -714,19 +491,6 @@
       <origin xyz="-0.010842 0 -0.001"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/slider_crank.stl"/>
-      </geometry>
-      <material name="white"/>
-    </visual>
-    <collision>
-      <origin rpy="1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/slider_crank.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_waist_pitch_link">
     <inertial>
@@ -734,19 +498,6 @@
       <origin xyz="0.057714 -0.007362 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_waist_pitch_mimic_link">
     <inertial>
@@ -754,19 +505,6 @@
       <origin xyz="0.059775 0.001384 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch_mimic.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/waist_pitch_mimic.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_knee_pitch_link">
     <inertial>
@@ -794,19 +532,6 @@
       <origin xyz="0.048641 -0.006895 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 -1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_shin_pitch_mimic_link">
     <inertial>
@@ -814,19 +539,6 @@
       <origin xyz="0.039698 -0.001743 0"/>
       <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
     </inertial>
-    <visual>
-      <origin rpy="3.14159265359 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch_mimic.stl"/>
-      </geometry>
-      <material name="grey"/>
-    </visual>
-    <collision>
-      <origin rpy="3.14159265359 0 1.57079632679" xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="URDF/meshes/STL/shin_pitch_mimic.stl"/>
-      </geometry>
-    </collision>
   </link>
   <link name="right_independent_pitch_link">
     <inertial>
