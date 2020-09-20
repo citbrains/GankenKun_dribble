@@ -116,11 +116,11 @@ class GankenKunEnv(gym.Env):
             ball_goal_prev_distance = math.sqrt((goal_x + 1.0 - self.ball_pos[0])**2 + (goal_y - self.ball_pos[1])**2)
             ball_goal_distance = math.sqrt((goal_x + 1.0 - ball_x)**2 + (goal_y - ball_y)**2)
             if self.ball_delta_length == 0.0:
-                reward += (- ball_goal_distance + ball_goal_prev_distance)*10
+                reward += max((- ball_goal_distance + ball_goal_prev_distance)*10, 0)
             self.ball_delta_length = - ball_goal_distance + ball_goal_prev_distance
             if ball_goal_distance == ball_goal_prev_distance:
                 self.ball_not_touch_period += 1
-                if self.ball_not_touch_period > 30:
+                if self.ball_not_touch_period > 40:
                     self.ball_not_touch_period = 0
                     done = True
             else:

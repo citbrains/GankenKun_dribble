@@ -15,7 +15,7 @@ from util import now_str, RecordHistory
 
 def train():
     # setup ===========================
-    max_episode = 1000  # 学習において繰り返す最大エピソード数
+    max_episode = 10000  # 学習において繰り返す最大エピソード数
     max_step = 250  # 1エピソードの最大ステップ数
     n_warmup_steps = 250 # warmupを行うステップ数
     interval = 1  # モデルや結果を吐き出すステップ間隔
@@ -141,7 +141,6 @@ def train():
                     print("last_10_reward:{}".format(last_10_avg))
                     x_reward.append(num_episode)
                     y_last10_reward.append(last_10_avg)
-                
 
         if num_episode >= max_episode:
             episode_loop = False
