@@ -18,7 +18,7 @@ def predict():
     weight_path = args.weight_path
     max_step = 300  # 1エピソードの最大ステップ数
     actions_list = [0, 1, 2, 3, 4, 5]  # 行動(action)の取りうる値のリスト
-    num_episode = 1000
+    num_episode = 10
     base_dir = os.path.dirname(weight_path)
     predict_movie_dir = os.path.join(base_dir, 'movie')
 
