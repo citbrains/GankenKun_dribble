@@ -6,7 +6,7 @@
 			<pose frame=''>0.2 0 0.1 0 0 0</pose>
 			<link name='link_d1'>
 			<inertial>
-			<mass>0.3</mass>
+			<mass>0.2</mass>
 			<inertia>
 			<ixx>0.16667</ixx>
 			<ixy>0</ixy>
@@ -19,7 +19,7 @@
 			<collision name='collision_2'>
 			<geometry>
             <sphere>
-                <radius> 0.1 </radius>
+                <radius> 0.075 </radius>
             </sphere>
           </geometry>
 			  </collision>
