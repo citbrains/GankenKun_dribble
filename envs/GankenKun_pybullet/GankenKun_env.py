@@ -8,7 +8,7 @@ from envs.GankenKun_pybullet.GankenKun.kinematics import *
 from envs.GankenKun_pybullet.GankenKun.foot_step_planner import *
 from envs.GankenKun_pybullet.GankenKun.preview_control import *
 from envs.GankenKun_pybullet.GankenKun.walking import *
-from random import random, choice 
+import random
 from time import sleep
 import csv
 
@@ -27,6 +27,8 @@ class GankenKunEnv(gym.Env):
         self.y_threshold = 3.5
         self.ball_x_threshold = 4.5
         self.ball_y_threshold = 3.0
+        self.direction_deg_threshold = 90
+        self.dist_threshold = 0.55
 
         TIME_STEP = 0.01
         physicsClient = p.connect(p.GUI)
@@ -38,7 +40,9 @@ class GankenKunEnv(gym.Env):
         
 #        planeId = p.loadURDF("envs/GankenKun_pybullet/URDF/plane.urdf", [0, 0, 0])
         self.FieldId = p.loadSDF("envs/GankenKun_pybullet/SDF/field/soccerfield.sdf")
-        self.RobotId = p.loadURDF("envs/GankenKun_pybullet/URDF/gankenkun.urdf", [0, 0, 0])
+        self.RightPoleId = p.loadSDF("envs/GankenKun_pybullet/SDF/goal/right_pole.sdf")
+        self.LeftPoleId = p.loadSDF("envs/GankenKun_pybullet/SDF/goal/left_pole.sdf")
+        self.RobotId = p.loadURDF("envs/GankenKun_pybullet/URDF/gankenkun_sub.urdf", [0, 0, 0])
         self.BallId = p.loadSDF("envs/GankenKun_pybullet/SDF/ball/ball.sdf")
         
         self.index = {p.getBodyInfo(self.RobotId)[0].decode('UTF-8'):-1,}
@@ -94,38 +98,55 @@ class GankenKunEnv(gym.Env):
         x, y, _ = p.getBasePositionAndOrientation(self.RobotId)[0]
         roll, pitch, yaw = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(self.RobotId)[1])
         ball_x, ball_y, _ = p.getBasePositionAndOrientation(self.BallId[0])[0]
-        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x, ball_y]
+        ball_x_lc = (ball_x - x) * math.cos(-yaw) - (ball_y - y) * math.sin(-yaw)
+        ball_y_lc = (ball_x - x) * math.sin(-yaw) + (ball_y - y) * math.cos(-yaw)
+        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x_lc, ball_y_lc]
+#        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x, ball_y]
+
+        ball_distance = math.sqrt(ball_x_lc**2 + ball_y_lc**2)
+        ball_direction_deg = math.degrees(math.atan2(ball_y_lc, ball_x_lc))
+        goal_x, goal_y = self.goal_pos
+        ball_goal_distance = math.sqrt((goal_x - ball_x)**2 + (goal_y - ball_y)**2)
 
         done = bool(
                 abs(x) > self.x_threshold
                 or abs(y) > self.y_threshold
                 or abs(ball_x) > self.ball_x_threshold
                 or abs(ball_y) > self.ball_y_threshold
+                or ball_distance > self.dist_threshold
+                or abs(ball_direction_deg) > self.direction_deg_threshold
         )
         reward = 0
-        goal_x, goal_y = self.goal_pos
         if not done:
-            dx, dy = ball_x - x, ball_y - y
-            ball_distance = math.sqrt(dx**2 + dy**2)
-            reward += math.floor(-10.0 * ball_distance)/10
-            ball_goal_distance = math.sqrt((goal_x - ball_x)**2 + (goal_y - ball_y)**2)
+#            reward += math.floor(-10.0 * ball_distance)/10
             reward += math.floor(-10.0 * ball_goal_distance)/10
-        elif ball_x > goal_x and self.goal_leftpole < ball_y < self.goal_rightpole:
-            reward = 500
         else:
-            reward = -500
+            if ball_x > goal_x and self.goal_leftpole < ball_y < self.goal_rightpole:
+                reward = 1500
+            elif ball_distance > self.dist_threshold or abs(ball_direction_deg) > self.direction_deg_threshold:
+                #reward += math.floor(-100.0 * ball_distance)
+                reward += math.floor(-200.0 * ball_goal_distance)
+            else:
+                reward = -500
         
         return self.state, reward, done, {}
 
     def reset(self):
-        p.resetBasePositionAndOrientation(self.RobotId, [0, 0, 0], [0, 0, 0, 1.0])
-        p.resetBasePositionAndOrientation(self.BallId[0], [0.2, 0, 0.1], [0, 0, 0, 1.0])
+        init_y = random.uniform(-2.5, 2.5) 
+#        init_y = 0
+        p.resetBasePositionAndOrientation(self.RobotId, [0, init_y, 0], [0, 0, 0, 1.0])
+        p.resetBasePositionAndOrientation(self.BallId[0], [0.2, init_y, 0.1], [0, 0, 0, 1.0])
+        p.resetBasePositionAndOrientation(self.RightPoleId[0], [4.5, -1.3, 0.51], [0, 0, 0, 1.0])
+        p.resetBasePositionAndOrientation(self.LeftPoleId[0], [4.5, 1.3, 0.51], [0, 0, 0, 1.0])
         x_goal, y_goal, th_goal = 0.0, 0.0, 0.0
         self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
         x, y, _ = p.getBasePositionAndOrientation(self.RobotId)[0]
         roll, pitch, yaw = p.getEulerFromQuaternion(p.getBasePositionAndOrientation(self.RobotId)[1])
         ball_x, ball_y, _ = p.getBasePositionAndOrientation(self.BallId[0])[0]
-        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x, ball_y]
+        ball_x_lc = (ball_x - x) * math.cos(-yaw) - (ball_y - y) * math.sin(-yaw)
+        ball_y_lc = (ball_x - x) * math.sin(-yaw) + (ball_y - y) * math.cos(-yaw)
+        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x_lc, ball_y_lc]
+#        self.state = [x, y, math.sin(yaw), math.cos(yaw), ball_x, ball_y]
         return np.array(self.state)
 
 
