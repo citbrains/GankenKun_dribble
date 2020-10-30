@@ -38,7 +38,7 @@ def train():
 #    print('state:', dim_state)
     q_network = Qnetwork(dim_state, actions_list, gamma=gamma)
     policy = EpsilonGreedyPolicy(q_network, epsilon=epsilon)
-    header = ["num_episode", "loss", "td_error", "reward_avg"]
+    header = ["num_episode", "loss", "td_error", "reward"]
     recorder = RecordHistory(os.path.join(result_dir, "history.csv"), header)
     recorder.generate_csv()
 
@@ -116,7 +116,7 @@ def train():
                 reward_sum = np.sum(episode_reward_list)
                 loss_avg = np.mean(loss_list)
                 td_error_avg = np.mean(td_list)
-                print("{}episode  reward_avg:{} loss:{} td_error:{}".format(num_episode, reward_sum, loss_avg, td_error_avg))
+                print("{}episode  reward_sum:{} loss:{} td_error:{}".format(num_episode, reward_sum, loss_avg, td_error_avg))
                 if num_episode % interval == 0:
                     model_path = os.path.join(result_dir, 'episode_{}.h5'.format(num_episode))
                     q_network.main_network.save(model_path)
@@ -124,7 +124,7 @@ def train():
                         "num_episode": num_episode,
                         "loss": loss_avg,
                         "td_error": td_error_avg,
-                        "reward_avg": reward_avg
+                        "reward": reward_sum
                     }
                     recorder.add_histry(history)
                 x.append(num_episode)
@@ -149,7 +149,7 @@ def train():
     ax3 = fig.add_subplot(3, 1, 3)
     ax1.plot(x, y_loss)
     ax2.plot(x, y_td_error)
-    ax3.plot(x, y_last10_reward)
+    ax3.plot(x_reward, y_last10_reward)
     ax1.set_ylabel('loss')
     ax1.set_xlabel('episode')
     ax2.set_ylabel('td_error')
