@@ -16,9 +16,9 @@ def predict():
     parser.add_argument('weight_path', help='learned model_weight path')
     args = parser.parse_args()
     weight_path = args.weight_path
-    max_step = 300  # 1エピソードの最大ステップ数
+    max_step = 250  # 1エピソードの最大ステップ数
     actions_list = [0, 1, 2, 3, 4, 5]  # 行動(action)の取りうる値のリスト
-    num_episode = 10
+    num_episode = 100
     base_dir = os.path.dirname(weight_path)
     predict_movie_dir = os.path.join(base_dir, 'movie')
 
@@ -57,6 +57,7 @@ def predict():
             state = next_state
             if step > max_step or done:
                 print('episode_{}, score_{}'.format(episode_step, score))
+                print('{}step'.format(step))
                 break
 
         total_reward = sum(e.reward for e in episode_history)

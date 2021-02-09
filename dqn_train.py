@@ -13,7 +13,7 @@ from util import now_str, RecordHistory
 
 def train():
     # setup ===========================
-    max_episode = 1000  # 学習において繰り返す最大エピソード数
+    max_episode = 3000  # 学習において繰り返す最大エピソード数
     max_step = 250  # 1エピソードの最大ステップ数
     n_warmup_steps = 10000  # warmupを行うステップ数
     interval = 1  # モデルや結果を吐き出すステップ間隔
@@ -22,7 +22,7 @@ def train():
     epsilon = 0.05  # ε-greedyのパラメータ
     memory_size = 10000
     batch_size = 32
-    result_dir = os.path.join('./result/dqn', now_str())
+    result_dir = os.path.join('./result/dqn/random', now_str())
     x = []
     x_reward = []
     y_loss = []
