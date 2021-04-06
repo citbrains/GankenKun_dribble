@@ -75,14 +75,14 @@ class GankenKunWalkEnv(gym.Env):
 
     def step(self, action_num):
         action = self.actions_list[action_num]
+        x_goal = self.foot_step[0][1] + action[0]
+        y_goal = self.foot_step[0][2] -self.foot_step[0][5] + action[1]
+        th_goal = self.foot_step[0][3] + action[2]
+        self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
         while p.isConnected():
             self.joint_angles,lf,rf,xp,n = self.walk.getNextPos()
             if n == 0:
                 if self.foot_step[0][4] == 'left':
-                    x_goal = self.foot_step[0][1] + action[0]
-                    y_goal = self.foot_step[0][2] -self.foot_step[0][5] + action[1]
-                    th_goal = self.foot_step[0][3] + action[2]    
-                    self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
                     break
                 else:
                     self.foot_step = self.walk.setGoalPos()
