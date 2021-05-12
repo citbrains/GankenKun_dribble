@@ -1,0 +1,35 @@
+<sdf version="1.4">
+<model name="obs1">
+  <pose>2.0 0 0.3 0 0 0</pose>
+  <static>true</static>
+    <link name="link">
+      <inertial>
+        <mass>10.0</mass>
+        <inertia>
+          <ixx>0.083</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>0.083</iyy>
+          <iyz>0.0</iyz>
+          <izz>0.083</izz>
+        </inertia>
+      </inertial>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.15</radius>
+	    <length>0.6</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.15</radius>
+	    <length>0.6</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
