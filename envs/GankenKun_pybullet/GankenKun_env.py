@@ -76,14 +76,14 @@ class GankenKunEnv(gym.Env):
 
     def step(self, action_num):
         action = self.actions_list[action_num]
+        x_goal = self.foot_step[0][1] + action[0]
+        y_goal = self.foot_step[0][2] -self.foot_step[0][5] + action[1]
+        th_goal = self.foot_step[0][3] + action[2]    
+        self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
         while p.isConnected():
             self.joint_angles,lf,rf,xp,n = self.walk.getNextPos()
             if n == 0:
                 if self.foot_step[0][4] == 'left':
-                    x_goal = self.foot_step[0][1] + action[0]
-                    y_goal = self.foot_step[0][2] -self.foot_step[0][5] + action[1]
-                    th_goal = self.foot_step[0][3] + action[2]    
-                    self.foot_step = self.walk.setGoalPos([x_goal, y_goal, th_goal])
                     break
                 else:
                     self.foot_step = self.walk.setGoalPos()
@@ -132,8 +132,8 @@ class GankenKunEnv(gym.Env):
         return self.state, reward, done, {}
 
     def reset(self):
-        init_y = random.uniform(-2.5, 2.5) 
-#        init_y = 0
+#        init_y = random.uniform(-2.5, 2.5) 
+        init_y = 0
         p.resetBasePositionAndOrientation(self.RobotId, [0, init_y, 0], [0, 0, 0, 1.0])
         p.resetBasePositionAndOrientation(self.BallId[0], [0.2, init_y, 0.1], [0, 0, 0, 1.0])
         p.resetBasePositionAndOrientation(self.RightPoleId[0], [4.5, -1.3, 0.51], [0, 0, 0, 1.0])
